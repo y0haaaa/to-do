@@ -2,15 +2,34 @@ let toDo = []
 
 const todoList = document.getElementById('todo-list')
 
+
+const savedToDo = JSON.parse(localStorage.getItem('toDoList'));
+if (savedToDo) {
+  toDo = savedToDo;
+  addToDo();
+}
+
+function saveToLocal() {
+    localStorage.setItem('toDoList', JSON.stringify(toDo));
+  }
+
 document.getElementById('todo-add')
     .addEventListener('click', function() {
         const inputValue = document.getElementById('todo-input').value
-        const newToDo = {
-            title: inputValue,
-            checked: false
+        if (inputValue.trim()) {
+            const newToDo = {
+                title: inputValue,
+                checked: false
+            }
+    
+            toDo.push(newToDo)
+            addToDo()
+        } else {
+            
+            alert('Введите текст задачи');
+            return;
         }
-        toDo.push(newToDo)
-        addToDo()
+       
 });
 
 
@@ -37,6 +56,7 @@ function addToDo(){
         todoList.appendChild(el)
         
     }
+    saveToLocal()
 
 }
 
